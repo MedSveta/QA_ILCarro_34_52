@@ -1,12 +1,29 @@
 package pages;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+import java.util.List;
 
 public abstract class BasePage {
     static WebDriver driver;
 
-    public void setDriver(WebDriver wd){
+    public void setDriver(WebDriver wd) {
         driver = wd;
+    }
+
+    @FindBy(xpath = "//div[@class='error']")
+    List<WebElement> listErrors;
+
+    public boolean isTextInErrorPresent(String text){
+        if (listErrors == null|| listErrors.isEmpty())
+            return false;
+        for (WebElement element: listErrors){
+            if (element.getText().contains(text))
+                return true;
+        }
+        return false;
     }
 
 
@@ -18,4 +35,7 @@ public abstract class BasePage {
         }
     }
 
+    public boolean isElementDisplayed(WebElement element) {
+        return element.isDisplayed();
+    }
 }
