@@ -80,4 +80,36 @@ public class LoginTests extends AppManager {
                 "validate message: Password is required");
         softAssert.assertAll();
     }
+
+    @Test
+    public void loginNegativeEmptyFieldPasswordTest() {
+        User user = User.builder()
+                .username(getProperty("base.properties",
+                        "email"))
+                .password("")
+                .build();
+        loginPage.typeLoginForm(user);
+        loginPage.clickBtnYalla();
+        softAssert.assertFalse(loginPage.isBtnYallaEnabled(),
+                "validate isBtnYallaEnabled()");
+        softAssert.assertTrue(loginPage.isTextInErrorPresent("Password is required"),
+                "validate message: Password is required");
+        softAssert.assertAll();
+    }
+
+    @Test
+    public void loginNegativeEmptyFieldEmailTest() {
+        User user = User.builder()
+                .username("")
+                .password(getProperty("base.properties",
+                        "password"))
+                .build();
+        loginPage.typeLoginForm(user);
+        loginPage.clickBtnYalla();
+        softAssert.assertFalse(loginPage.isBtnYallaEnabled(),
+                "validate isBtnYallaEnabled()");
+        softAssert.assertTrue(loginPage.isTextInErrorPresent("Email is required"),
+                "validate message: Email is required");
+        softAssert.assertAll();
+    }
 }
