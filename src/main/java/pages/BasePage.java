@@ -3,7 +3,10 @@ package pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 
 public abstract class BasePage {
@@ -26,6 +29,17 @@ public abstract class BasePage {
         return false;
     }
 
+    public boolean isTextInElementPresent(WebElement element, String text) {
+        try {
+            return new WebDriverWait(driver, Duration.ofSeconds(5))
+                    .until(ExpectedConditions
+                            .textToBePresentInElement(element, text));
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            System.out.println("created exeption");
+        }
+        return false;
+    }
 
     public void pause(int time) {
         try {
