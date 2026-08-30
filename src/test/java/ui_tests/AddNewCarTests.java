@@ -3,6 +3,7 @@ package ui_tests;
 import dto.Car;
 import dto.User;
 import manager.AppManager;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.HomePage;
@@ -43,5 +44,16 @@ public class AddNewCarTests extends AppManager {
         Car car = positiveCar();
         System.out.println(car);
         letTheCarWorkPage.typeAddNewCarForm(car);
+        letTheCarWorkPage.downloadImage("cat2.jpg");
+        letTheCarWorkPage.clickBtnSubmitWithJS();
+        Assert.assertTrue(new PopUpPage(getDriver())
+                .isTextInPopUpMessagePresent("{\"city\":\"must not be blank\"}"));
     }
+
+    // Homework Negative Tests
+    // 1. only click btn Submit
+    // 2. click all fields and btnSubmit
+    // 3. leave one field blank and other fields type with valid data
+    // 4. wrong year
+
 }
