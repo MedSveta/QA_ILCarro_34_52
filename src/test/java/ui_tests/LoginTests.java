@@ -22,6 +22,7 @@ public class LoginTests extends AppManager {
 
     @BeforeMethod(alwaysRun = true)
     public void goToLoginPage() {
+        System.out.println("DRIVER = " + getDriver());
         new HomePage(getDriver()).clickBtnLogin();
         loginPage = new LoginPage(getDriver());
     }
