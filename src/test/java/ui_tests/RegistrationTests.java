@@ -19,7 +19,7 @@ import static utils.UserFactory.*;
 
 public class RegistrationTests extends AppManager {
     RegistrationPage registrationPage;
-
+//
 
     @BeforeMethod(alwaysRun = true)
     public void goToRegistrationPage() {
