@@ -25,7 +25,7 @@ public class TakeScreenShot {
         System.out.println(date);
         String curDate = formater.format(date);
         System.out.println(curDate);
-        String fileName = "src/test/resources/screenshots/screen-"
+        String fileName = "src/test/resources/screenshots1/screen-"
                 + curDate + ".png";
         System.out.println(fileName);
         return fileName;
