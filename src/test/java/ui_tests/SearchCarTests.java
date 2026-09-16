@@ -13,7 +13,7 @@ public class SearchCarTests extends AppManager {
     HomePage homePage;
     SoftAssert softAssert = new SoftAssert();
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void openHomePage() {
         homePage = new HomePage(getDriver());
     }
@@ -30,7 +30,7 @@ public class SearchCarTests extends AppManager {
         Assert.assertTrue(homePage.isUrlContainsText("results"));
     }
 
-    @Test
+    @Test(groups = "smoke")
     public void searchCarWithCalendarPositiveTest() {
         String city = "Haifa";
         LocalDate startDate = LocalDate.now()
@@ -40,6 +40,39 @@ public class SearchCarTests extends AppManager {
         homePage.typeSearchFormWithCalendar(city, startDate, endDate);
         homePage.clickBtnSubmitWithJS();
         Assert.assertTrue(homePage.isUrlContainsText("results"));
+    }
+
+    @Test
+    public void searchCarWithCalendarSameDatesNegativeTest() {
+        String city = "Haifa";
+        LocalDate startDate = LocalDate.now().plusDays(3);
+        LocalDate endDate = LocalDate.now().plusDays(3);
+        homePage.typeSearchFormWithCalendar(city, startDate, endDate);
+        Assert.assertTrue(homePage.isTextInErrorPresent
+                ("You can't book car for less than a day"));
+    }
+
+    @Test
+    public void searchCarWithCalendarMoreThanOneYearNegativeTest() {
+        String city = "Haifa";
+        LocalDate startDate = LocalDate.now().plusDays(3);
+        LocalDate endDate = LocalDate.now().plusYears(1).plusDays(1);
+        homePage.typeSearchFormWithCalendar(city, startDate, endDate);
+        homePage.pressEscape();
+        Assert.assertTrue(homePage.isTextInErrorPresent
+                ("Dates are required"));
+    }
+
+    @Test
+    public void searchCarWithCalendarStartDateLessTodayNegativeTest() {
+        String city = "Haifa";
+        LocalDate startDate = LocalDate.now().minusDays(2);
+        LocalDate endDate = LocalDate.now()
+                .plusDays(3);
+        homePage.typeSearchFormWithCalendar(city, startDate, endDate);
+        homePage.pressEscape();
+        Assert.assertTrue(homePage.isTextInErrorPresent
+                ("Dates are required"));
     }
 
     @Test
